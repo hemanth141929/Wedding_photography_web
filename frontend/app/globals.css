@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* CHANGED: From Pink (#FDF2F8) to Light Brown/Cream */
+    --background: #FAF8F3; 
+    --foreground: #2D241E; 
+
+    /* Brand Brown Colors */
+    --brown-warm: #8B6F47;
+    --brown-medium: #A0826D;
+    --brown-light: #D4C4B0;
+    --cream: #FAF8F3;
+    --beige: #F5F1E8;
+  }
+
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    
+    /* Font Mappings from your Layout */
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+    --font-serif: var(--font-playfair);
+    --font-elegant: var(--font-cormorant);
+    --font-script: var(--font-dancing);
+    --font-great-vibes: var(--font-great-vibes);
+
+    /* Brown Theme Mappings for Tailwind Classes */
+    --color-brown-warm: var(--brown-warm);
+    --color-brown-medium: var(--brown-medium);
+    --color-brown-light: var(--brown-light);
+    --color-cream: var(--cream);
+    --color-beige: var(--beige);
+  }
+
+  /* Apply the background color to the entire site */
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Default heading color to your brand brown */
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--brown-warm);
+  }
+}
+
+@layer utilities {
+  /* Brown Scrollbar */
+  ::-webkit-scrollbar-track {
+    background: var(--beige);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--brown-light);
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brown-warm);
+  }
+}
