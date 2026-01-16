@@ -4,7 +4,7 @@ import Link from 'next/link';
 const packages = [
   {
     name: "The Essential",
-    price: "$1,800",
+    price: "50,000",
     description: "Perfect for intimate celebrations and civil ceremonies.",
     features: [
       "6 Hours Coverage",
@@ -17,7 +17,7 @@ const packages = [
   },
   {
     name: "The Signature",
-    price: "$2,500",
+    price: "80,000",
     description: "Our most popular choice for full-day wedding storytelling.",
     features: [
       "8 Hours Coverage",
@@ -30,7 +30,7 @@ const packages = [
   },
   {
     name: "The Cinematic",
-    price: "$4,200",
+    price: "1,10,000",
     description: "Complete coverage including high-end videography.",
     features: [
       "10 Hours Photography & Video",
@@ -113,15 +113,6 @@ export default function PricingSection() {
               </Link>
             </div>
           ))}
-        </div>
-
-        {/* Custom Quote Footer */}
-        <div className="mt-20 p-12 border border-dashed border-[#D4C4B0] text-center bg-[#FAF8F3]/50">
-          <h4 className="font-['Playfair_Display'] text-xl text-[#8B6F47] mb-2">Looking for something bespoke?</h4>
-          <p className="text-gray-500 text-sm mb-6">We offer custom destination wedding packages worldwide.</p>
-          <Link href="/contact" className="text-[#8B6F47] font-bold text-xs uppercase tracking-widest border-b border-[#8B6F47] pb-1 hover:text-black hover:border-black transition-all">
-            Contact for Custom Quote
-          </Link>
         </div>
       </div>
     </section>
