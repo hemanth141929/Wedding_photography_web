@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-const Navbar = () => {
+// 1. MAIN NAVBAR COMPONENT
+const Navbar = ({ forceSolid = false }: { forceSolid?: boolean }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
+  const shouldBeSolid = isScrolled || isOpen || forceSolid;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +25,7 @@ const Navbar = () => {
     <>
       <nav 
         className={`fixed top-0 left-0 right-0 z-[60] transition-all duration-500 ${
-          isScrolled || isOpen
+          shouldBeSolid 
             ? 'bg-white/95 backdrop-blur-xl border-b border-[#D4C4B0]/60 py-4 shadow-sm' 
             : 'bg-transparent py-6 md:py-8'
         }`}
@@ -30,9 +33,8 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           
           <Link href="/" className="z-50" onClick={() => setIsOpen(false)}>
-            {/* FIX: Changed text-white to text-[#8B6F47] on mobile (hidden md:text-white) */}
             <h1 className={`text-lg md:text-xl font-black tracking-tight italic uppercase transition-all duration-300 font-serif ${
-              isScrolled || isOpen ? 'text-[#b46233]' : 'text-[#ffffff] md:text-white drop-shadow-lg'
+              shouldBeSolid ? 'text-[#b46233]' : 'text-[#ffffff] md:text-white drop-shadow-lg'
             }`}>
               24 FRAMES <span className="text-[#272727] font-bold tracking-widest not-italic">STUDIO</span>
             </h1>
@@ -40,18 +42,18 @@ const Navbar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-12">
-            <NavLink href="/portfolio" label="Portfolio" isScrolled={isScrolled} />
-            <NavLink href="/gallery" label="Gallery" isScrolled={isScrolled} />
-            <NavLink href="/services" label="Services" isScrolled={isScrolled} />
-            <NavLink href="/about" label="About" isScrolled={isScrolled} />
+            <NavLink href="/portfolio" label="Portfolio" isScrolled={shouldBeSolid} />
+            <NavLink href="/gallery" label="Gallery" isScrolled={shouldBeSolid} />
+            <NavLink href="/services" label="Services" isScrolled={shouldBeSolid} />
+            <NavLink href="/about" label="About" isScrolled={shouldBeSolid} />
+            <NavLink href="/contact" label="Contact" isScrolled={shouldBeSolid} />
           </div>
 
-          {/* Mobile Toggle Button - FIX: Added SVG Icons */}
+          {/* Mobile Toggle */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
             className={`md:hidden z-50 p-2 transition-colors ${
-              isScrolled || isOpen ? 'text-[#8B6F47]' : 'text-[#fdfdfd]'
+              shouldBeSolid ? 'text-[#8B6F47]' : 'text-[#fdfdfd]'
             }`}
           >
             {isOpen ? (
@@ -68,16 +70,18 @@ const Navbar = () => {
         isOpen ? 'translate-y-0' : '-translate-y-full'
       }`}>
         <div className="flex flex-col items-center justify-center h-full gap-10">
-          <MobileNavLink href="/" label="home" onClick={() => setIsOpen(false)} />
+          <MobileNavLink href="/" label="Home" onClick={() => setIsOpen(false)} />
           <MobileNavLink href="/portfolio" label="Portfolio" onClick={() => setIsOpen(false)} />
           <MobileNavLink href="/gallery" label="Gallery" onClick={() => setIsOpen(false)} />
           <MobileNavLink href="/services" label="Services" onClick={() => setIsOpen(false)} />
-
+          <MobileNavLink href="/contact" label="Contact" onClick={() => setIsOpen(false)} />
         </div>
       </div>
     </>
   );
 };
+
+// 2. HELPER COMPONENTS (Place these at the bottom of the file)
 
 const NavLink = ({ href, label, isScrolled }: { href: string; label: string; isScrolled: boolean }) => (
   <Link 

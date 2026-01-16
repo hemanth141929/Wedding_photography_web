@@ -1,50 +1,38 @@
 'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-const packages = [
-  {
-    name: "The Essential",
-    price: "50,000",
-    description: "Perfect for intimate celebrations and civil ceremonies.",
-    features: [
-      "6 Hours Coverage",
-      "Single Photographer",
-      "300+ Digital High-Res Photos",
-      "Online Private Gallery",
-      "Print Release"
-    ],
-    highlight: false
-  },
-  {
-    name: "The Signature",
-    price: "80,000",
-    description: "Our most popular choice for full-day wedding storytelling.",
-    features: [
-      "8 Hours Coverage",
-      "Two Photographers",
-      "500+ Digital High-Res Photos",
-      "Complimentary Engagement Session",
-      "Premium Linen Photo Box"
-    ],
-    highlight: true // This will give it a subtle standout background
-  },
-  {
-    name: "The Cinematic",
-    price: "1,10,000",
-    description: "Complete coverage including high-end videography.",
-    features: [
-      "10 Hours Photography & Video",
-      "Full Creative Team (3 people)",
-      "5-7 Minute Cinematic Highlight Film",
-      "800+ Digital High-Res Photos",
-      "Hand-crafted Leather Album"
-    ],
-    highlight: false
-  }
-];
+import { supabase } from '@/app/lib/supabase'; 
+import Navbar from '../component/Navbar';// Adjust this path to your supabase config
 
 export default function PricingSection() {
+  const [packages, setPackages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPackages = async () => {
+      const { data, error } = await supabase
+        .from('pricing_packages')
+        .select('*')
+        .order('display_order', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching pricing:', error);
+      } else {
+        setPackages(data);
+      }
+      setLoading(false);
+    };
+
+    fetchPackages();
+  }, []);
+
+  if (loading) {
+    return <div className="py-24 text-center font-serif italic text-gray-400">Loading Collections...</div>;
+  }
+
   return (
+    <>
+    <Navbar forceSolid={true} />
     <section className="bg-white py-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -63,9 +51,9 @@ export default function PricingSection() {
 
         {/* Pricing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {packages.map((pkg, index) => (
+          {packages.map((pkg) => (
             <div 
-              key={index} 
+              key={pkg.id} 
               className={`relative p-10 flex flex-col transition-all duration-500 border border-[#D4C4B0]/30 ${
                 pkg.highlight 
                   ? 'bg-[#FAF8F3] shadow-2xl scale-105 z-10' 
@@ -93,7 +81,7 @@ export default function PricingSection() {
               <div className="w-full h-[1px] bg-[#D4C4B0]/30 mb-8" />
 
               <ul className="space-y-4 mb-12 flex-grow">
-                {pkg.features.map((feature, i) => (
+                {pkg.features?.map((feature: string, i: number) => (
                   <li key={i} className="flex items-center gap-3 text-sm text-gray-700">
                     <span className="text-[#8B6F47] text-xs">✦</span>
                     {feature}
@@ -109,12 +97,13 @@ export default function PricingSection() {
                     : 'border border-[#8B6F47] text-[#8B6F47] hover:bg-[#8B6F47] hover:text-white'
                 }`}
               >
-                Inquire for Date
+                Inquire
               </Link>
             </div>
           ))}
         </div>
       </div>
     </section>
+    </>
   );
 }
