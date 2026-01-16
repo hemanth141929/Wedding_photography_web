@@ -123,7 +123,7 @@ export default function ContactPage() {
         <div className="text-left">
           <p className="text-[10px] uppercase tracking-widest font-bold text-[#A0826D]">Chat with us</p>
           <p className="text-xl font-['Playfair_Display'] italic text-[#8B6F47] border-b border-[#D4C4B0] group-hover:border-[#8B6F47] transition-all">
-            +91 7676004057
+            7676004057
           </p>
         </div>
       </a>
